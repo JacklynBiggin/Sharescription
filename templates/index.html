@@ -1,40 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
- 
-<head>
-    <title>ShareScription</title>
- 
- 
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
- 
- 
-</head>
- 
-<body>
- 
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+        <link href="static/style.css" rel="stylesheet">
+
+        <title>ShareScription</title>
+       </head>
+      <body>
+    <!-- Header -->
+  <a href="./logout" id="logout">Log Out</a>
+    <header style="display: inline-block;">
+        <div id="middle">
+        <img src="static/logo1.png" class="logo">
+        <h1>ShareScription</h1>
+        </div>
+    </header>
+    
+    <!-- Working template -->
     <div class="container">
-        <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="#">Home</a>
-                    </li>
-                    <li role="presentation"><a href="./login.html">Sign In</a>
-                    </li>
-                </ul>
-            </nav>
-            <h3 class="text-muted">Python Flask App</h3>
+        <div class="row">
+          <div class="col-12 col-md-8">
+            {{ ScriptStuff | safe }}
+          </div>
+            <div class="col-12 col-md-4">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <img src= {{picture}} class="profile_pic" />
+                    </div> 
+                    <div class="col-12 col-md-8">
+                        <center><h4>Hello {{ name }}!</h4></center> 
+                    </div>
+                
+                <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#addNewModal" >
+                    Add New Subscription
+                </button>
+            </div>
         </div>
- 
-        <div class="jumbotron">
-            <h1>Bucket List App</h1>
-            <p class="lead"></p>
-            <p><a class="btn btn-lg btn-success" href="showSignUp" role="button">Sign up today</a>
-            </p>
-        </div>
- 
+      </div>
     </div>
-</body>
+
+  <form method="GET" action="https://jmb.im/uofthacks/add_sub.php">
+    <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add New Subscription</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                <input type="hidden" value="{{uid}}" name="uid">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Please select the service you wish to add</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="service">
+                            <option value="netflix">Netflix</option>
+                            <option value="spotify">Spotify</option>
+                            <option value="hulu">Hulu</option>
+                            <option value="apple_music">Apple Music</option>
+                            <option value="youtube_premium">Youtube Premium</option>
+                        </select>
+                        <label for="exampleFormControlSelect2">Monthly Cost:</label>
+                        <input class="form-control" type="number" id="exampleFormControlSelect2" name="fee">
+                        <label for="exampleFormControlSelect2">Due in (days):</label>
+                        <input class="form-control" type="number" id="exampleFormControlSelect2" name="due">
+                  </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input class="btn btn-primary" type="submit" value="Save Changes">
+          </div>
+        </div>
+      </div>
+  </form>
+  </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h4 class="modal-title" id="exampleModalLabel">Netflix</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                          <h5>Details</h5>
+                          <h6>Total Amount Owned: <span id = "fee"></span></h6>
+                          <h6>Your Portion to Pay: </h6>
+                          <h6>Due Date: <span id = "due"></span> days</h6>
+                          <h6>Shared People: {{ sharedList  }}</h6>
+                          <form method="GET" action="https://jmb.im/uofthacks/add_user_to_sub.php"><input type="hidden" id="hidden_id" name="id"><h6>Add New People: <span id = "peopleOptions"></span></h6><input class="btn btn-primary" type="submit" value="Save Changes"></form>
+
+                          <div id="card-data"></div>
+
+                      </div>
+                      <div class="modal-footer">
+                          <button onclick="transaction()" type="button" class="btn btn-warning">Simulate Transaction</button>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <input type="hidden" id="people" value='{{ people }}'>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+          people = $.parseJSON($('#people').val())
+          peopleOptions = '<select class="form-control" id="people" name="uid">'
+          var counter
+          for (counter = 0; counter < people.length; counter++){
+            peopleOptions += "<option value=\"" + people[counter]["uid"] +"\">" + people[counter]["fname"] + " "  +  people[counter]["sname"] + "</option>"
+          }
+          peopleOptions += '</select>'
+          function openModal(fee,due, sub_id){
+            $('#infoModal').modal('show')
+            $('#fee').html(fee)
+            $('#due').html(due)
+            $('#peopleOptions').html(peopleOptions)
+            console.log(sub_id)
+            $('#hidden_id').val(sub_id)
+          }
+          function transaction(){
+            sub_id = $('#hidden_id')
+
+            setTimeout(function() {
+           $('#card-data').html('<strong>Card Number: </strong>1111118678354089 <strong>CVV: </strong> 398 <strong>Expiry: </strong> 0123')
+            }, 2000)
  
-</html>
+
+
+            var transactionRequest = $.getJSON("https://jmb.im/uofthacks/send_interac.php?id=" + sub_id, function(data) {
+              $('#card-data').html('<strong>Card Number: </strong>' + data.card_number + ' <strong>CVV: </strong>' + data.cvv + ' <strong>Expiry: </strong>' + data.expiration)
+            })
+          }
+
+        </script>
+      </body>
+    </html>
+
+ 

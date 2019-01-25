@@ -1,4 +1,59 @@
 body {
-  font-family: "helvetica", sans-serif;
-  text-align: center;
+    background-color:white;
+}
+
+header {
+    background-color: #4834d4;
+    padding: 1em;
+    text-align: center;
+    color: white;
+    margin-bottom: 2em;
+    width: 100%;
+}
+
+h1{
+    /*padding-right: 5.5em;*/
+    float: left;
+    display: inline;
+}
+
+.bill {
+    margin-bottom: 1em;
+    cursor: pointer;
+}
+
+.bill img {
+    width: 100%;
+}
+
+.profile_pic {
+    width: 100%;
+    border-radius: 50%;
+    margin-bottom: 1.5em;
+}
+
+.logo {
+    width: 100px;
+    float: right;
+    display: inline;
+}
+
+#logout {
+    background-color: #30336b;
+    color: white;
+    position: absolute; 
+    right: 2.5em;
+    padding: 0.5em;
+    padding-right: 1em;
+    padding-left: 1em;
+    z-index: 99;
+    
+}
+#middle{
+    width: 380px;
+        margin: auto;
+    height: 50px;
+    
+    
+    
 }
